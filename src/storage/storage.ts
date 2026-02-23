@@ -49,6 +49,10 @@ export function loadBoard(): BoardState {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultBoard();
     const parsed = JSON.parse(raw) as BoardState;
+    // Validate shape — fall back if corrupted
+    if (!Array.isArray(parsed.columns) || !Array.isArray(parsed.tasks)) {
+      return defaultBoard();
+    }
     return parsed;
   } catch {
     return defaultBoard();
